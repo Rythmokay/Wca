@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <title>WhatsApp Chat Analyzer</title>
+</head>
+<body>
+    <h1>WhatsApp Chat Analyzer</h1>
+    <form action="/upload" method="post" enctype="multipart/form-data">
+        <label for="file">Upload your chat file (.txt):</label>
+        <input type="file" name="file" id="file" required>
+        <button type="submit">Analyze</button>
+    </form>
+    <div id="results">
+        <h2>Analysis Results</h2>
+        <img src="{{ url_for('static', filename='charts/daily_message_counts.png') }}" alt="Daily Message Counts">
+    </div>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
