@@ -2,21 +2,41 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     <title>WhatsApp Chat Analyzer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
     <h1>WhatsApp Chat Analyzer</h1>
-    <form action="/upload" method="post" enctype="multipart/form-data">
-        <label for="file">Upload your chat file (.txt):</label>
-        <input type="file" name="file" id="file" required>
-        <button type="submit">Analyze</button>
+    <form action="{{ url_for('analyzer.index') }}" method="POST" enctype="multipart/form-data">
+        <input type="file" name="file" accept=".txt">
+        <button type="submit">Upload and Analyze</button>
     </form>
-    <div id="results">
-        <h2>Analysis Results</h2>
-        <img src="{{ url_for('static', filename='charts/daily_message_counts.png') }}" alt="Daily Message Counts">
-    </div>
-    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+    {% if user_activity %}
+        <h2>User Activity Analysis</h2>
+        <ul>
+            {% for user, count in user_activity.items() %}
+                <li><strong>{{ user }}:</strong> {{ count }} messages</li>
+            {% endfor %}
+        </ul>
+
+        <h2>Visualizations</h2>
+        <div>
+            <h3>User Message Distribution (Pie Chart)</h3>
+            <img src="{{ url_for('static', filename='images/user_activity_pie.png') }}" alt="User Message Distribution">
+        </div>
+        <div>
+            <h3>Messages per User (Bar Graph)</h3>
+            <img src="{{ url_for('static', filename='images/user_activity_bar.png') }}" alt="Messages per User">
+        </div>
+        <div>
+            <h3>Sentiment Distribution</h3>
+            <img src="{{ url_for('static', filename='images/sentiment_distribution.png') }}" alt="Sentiment Distribution">
+        </div>
+        <div>
+            <h3>Message Count by Date (Time Graph)</h3>
+            <img src="{{ url_for('static', filename='images/date_analysis.png') }}" alt="Message Count by Date">
+        </div>
+    {% endif %}
 </body>
 </html>
